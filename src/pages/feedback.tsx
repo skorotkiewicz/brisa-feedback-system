@@ -5,12 +5,14 @@ import { Icons } from "@/utils/icons";
 
 export default async function FeedbackPage({}, req: RequestContext) {
   const { token, userId, isAuthenticated } = req.store.get("authContext");
+  const query = req.route.query;
 
-  const projectId = Number.parseInt(req.route.query?.project_id || "0");
-  const sort = req.route.query?.sort || "newest";
-  const status = req.route.query?.status || "all";
-  const type = req.route.query?.type || "all";
-  const page = Number.parseInt(req.route.query?.page || "1");
+  // const projectId = Number.parseInt(Array.isArray(query?.project_id) ? query.project_id[0] : query?.project_id || '0') || 0;
+  const projectId = Number.parseInt(query?.project_id) || 0;
+  const sort = query?.sort || "newest";
+  const status = query?.status || "all";
+  const type = query?.type || "all";
+  const page = Number.parseInt(query?.page) || 1;
   const perPage = 10;
 
   // Verify project ownership
