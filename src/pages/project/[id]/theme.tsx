@@ -85,74 +85,50 @@ export default async function ProjectThemeEdit({}, req: RequestContext) {
   }
 
   return (
-    <div class="dashboard-layout">
-      <aside class="sidebar">
-        <div class="sidebar-header">
-          <a href="/dashboard" class="logo">
-            {Icons(24).Feedback}
-            Feedback
-          </a>
-        </div>
+    <div class="container">
+      <div class="card mb-4">
+        <h2 class="mb-4">Customize Theme for {project.name}</h2>
+        <a href="/dashboard" class="btn btn-secondary">
+          Back to Dashboard
+        </a>
 
-        <div class="sidebar-footer">
-          <a href="/dashboard" class="nav-item">
-            {Icons(18).Dashboard}
-            Dashboard
-          </a>
-          <a href="/logout" class="nav-item">
-            {Icons(18).Logout}
-            Logout
-          </a>
-        </div>
-      </aside>
-
-      <main class="main-content">
-        <div class="container">
-          <div class="card mb-4">
-            <h2 class="mb-4">Customize Theme for {project.name}</h2>
-            <a href="/dashboard" class="btn btn-secondary">
-              Back to Dashboard
-            </a>
-
-            <div
-              class="customization-panel"
-              style={{ display: "block", marginTop: "1rem" }}
-            >
-              <form class="customization-form" onSubmit={saveTheme}>
-                <div class="customization-section">
-                  <h4>Text Settings</h4>
-                  <div class="form-group">
-                    <label>Feedback Button Text</label>
-                    <input
-                      type="text"
-                      name="buttonText"
-                      value={settings.buttonText}
-                      class="form-control"
-                      placeholder="e.g., Feedback, Help, Support"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label>Widget Header Text</label>
-                    <input
-                      type="text"
-                      name="headerText"
-                      value={settings.headerText}
-                      class="form-control"
-                      placeholder="e.g., Help us improve, Send feedback"
-                    />
-                  </div>
-                </div>
-
-                <change-theme themes={themes} currentTheme={settings.theme} />
-
-                <button type="submit" class="btn btn-primary">
-                  Save Changes
-                </button>
-              </form>
+        <div
+          class="customization-panel"
+          style={{ display: "block", marginTop: "1rem" }}
+        >
+          <form class="customization-form" onSubmit={saveTheme}>
+            <div class="customization-section">
+              <h4>Text Settings</h4>
+              <div class="form-group">
+                <label>Feedback Button Text</label>
+                <input
+                  type="text"
+                  name="buttonText"
+                  value={settings.buttonText}
+                  class="form-control"
+                  placeholder="e.g., Feedback, Help, Support"
+                />
+              </div>
+              <div class="form-group">
+                <label>Widget Header Text</label>
+                <input
+                  type="text"
+                  name="headerText"
+                  value={settings.headerText}
+                  class="form-control"
+                  placeholder="e.g., Help us improve, Send feedback"
+                />
+              </div>
             </div>
-          </div>
+
+            <change-theme themes={themes} currentTheme={settings.theme} />
+
+            <button type="submit" class="btn btn-primary">
+              Save Changes
+            </button>
+          </form>
         </div>
-      </main>
+      </div>
     </div>
   );
 }

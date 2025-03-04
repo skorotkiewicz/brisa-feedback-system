@@ -134,4 +134,32 @@ export const Icons = (size?: number) => ({
       <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6" />
     </svg>
   ),
+  Login: (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M12 2a5 5 0 0 1 5 5v4a5 5 0 0 1-10 0V7a5 5 0 0 1 5-5z" />
+      <path d="M5 21h14" />
+    </svg>
+  ),
+  Register: (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M16 21v-6a4 4 0 0 0-8 0v6" />
+      <path d="M12 11a4 4 0 1 0-4-4 4 4 0 0 0 4 4z" />
+    </svg>
+  ),
 });

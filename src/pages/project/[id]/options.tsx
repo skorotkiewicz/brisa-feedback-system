@@ -60,117 +60,93 @@ export default async function ProjectOptionsEdit({}, req: RequestContext) {
   }
 
   return (
-    <div class="dashboard-layout">
-      <aside class="sidebar">
-        <div class="sidebar-header">
-          <a href="/dashboard" class="logo">
-            {Icons(24).Feedback}
-            Feedback
+    <div class="container">
+      <div class="card mb-4">
+        <h2 class="mb-4">Manage Feedback Options for {project.name}</h2>
+        <div
+          class="button-group"
+          style={{ display: "flex", gap: "1rem", marginBottom: "1rem" }}
+        >
+          <a href="/dashboard" class="btn btn-secondary">
+            Back to Dashboard
           </a>
+
+          <delete-project
+            projectName={project.name}
+            onDeleteProject={deleteProject}
+          />
         </div>
 
-        <div class="sidebar-footer">
-          <a href="/dashboard" class="nav-item">
-            {Icons(18).Dashboard}
-            Dashboard
-          </a>
-          <a href="/logout" class="nav-item">
-            {Icons(18).Logout}
-            Logout
-          </a>
-        </div>
-      </aside>
+        <div
+          class="options-panel"
+          style={{ display: "block", marginTop: "1rem" }}
+        >
+          <h3>Manage Feedback Options</h3>
+          <p class="options-description">
+            Choose which feedback options to show in your widget
+          </p>
+          <form class="options-form" onSubmit={saveOptions}>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input
+                  type="checkbox"
+                  name="like"
+                  class="feedback-option-checkbox"
+                  checked={project.feedbackOptions.like}
+                />
+                <span>I like something</span>
+              </label>
+            </div>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input
+                  type="checkbox"
+                  name="suggestion"
+                  class="feedback-option-checkbox"
+                  checked={project.feedbackOptions.suggestion}
+                />
+                <span>I have a suggestion</span>
+              </label>
+            </div>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input
+                  type="checkbox"
+                  name="bug"
+                  class="feedback-option-checkbox"
+                  checked={project.feedbackOptions.bug}
+                />
+                <span>Something's not working</span>
+              </label>
+            </div>
 
-      <main class="main-content">
-        <div class="container">
-          <div class="card mb-4">
-            <h2 class="mb-4">Manage Feedback Options for {project.name}</h2>
-            <div
-              class="button-group"
-              style={{ display: "flex", gap: "1rem", marginBottom: "1rem" }}
-            >
-              <a href="/dashboard" class="btn btn-secondary">
-                Back to Dashboard
-              </a>
-
-              <delete-project
-                projectName={project.name}
-                onDeleteProject={deleteProject}
+            <div class="form-group">
+              <label>Recaptcha Key</label>
+              <input
+                type="text"
+                name="recaptcha_key"
+                value={project.recaptcha_key || ""}
+                class="form-control"
+                placeholder="Recaptcha Key"
+              />
+            </div>
+            <div class="form-group">
+              <label>Recaptcha Secret</label>
+              <input
+                type="text"
+                name="recaptcha_secret"
+                value={project.recaptcha_secret || ""}
+                class="form-control"
+                placeholder="Recaptcha Secret"
               />
             </div>
 
-            <div
-              class="options-panel"
-              style={{ display: "block", marginTop: "1rem" }}
-            >
-              <h3>Manage Feedback Options</h3>
-              <p class="options-description">
-                Choose which feedback options to show in your widget
-              </p>
-              <form class="options-form" onSubmit={saveOptions}>
-                <div class="checkbox-group">
-                  <label class="checkbox-label">
-                    <input
-                      type="checkbox"
-                      name="like"
-                      class="feedback-option-checkbox"
-                      checked={project.feedbackOptions.like}
-                    />
-                    <span>I like something</span>
-                  </label>
-                </div>
-                <div class="checkbox-group">
-                  <label class="checkbox-label">
-                    <input
-                      type="checkbox"
-                      name="suggestion"
-                      class="feedback-option-checkbox"
-                      checked={project.feedbackOptions.suggestion}
-                    />
-                    <span>I have a suggestion</span>
-                  </label>
-                </div>
-                <div class="checkbox-group">
-                  <label class="checkbox-label">
-                    <input
-                      type="checkbox"
-                      name="bug"
-                      class="feedback-option-checkbox"
-                      checked={project.feedbackOptions.bug}
-                    />
-                    <span>Something's not working</span>
-                  </label>
-                </div>
-
-                <div class="form-group">
-                  <label>Recaptcha Key</label>
-                  <input
-                    type="text"
-                    name="recaptcha_key"
-                    value={project.recaptcha_key || ""}
-                    class="form-control"
-                    placeholder="Recaptcha Key"
-                  />
-                </div>
-                <div class="form-group">
-                  <label>Recaptcha Secret</label>
-                  <input
-                    type="text"
-                    name="recaptcha_secret"
-                    value={project.recaptcha_secret || ""}
-                    class="form-control"
-                    placeholder="Recaptcha Secret"
-                  />
-                </div>
-
-                <button type="submit" class="btn btn-primary">
-                  Save Options
-                </button>
-              </form>
-            </div>
-          </div>
+            <button type="submit" class="btn btn-primary">
+              Save Options
+            </button>
+          </form>
         </div>
-      </main>
+      </div>
     </div>
   );
 }

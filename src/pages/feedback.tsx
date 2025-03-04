@@ -79,6 +79,7 @@ export default async function FeedbackPage({}, req: RequestContext) {
     perPage: number,
     totalItems: number,
     stats: any,
+    type: any,
   ) {
     // e.preventDefault();
     // onAction(e);
@@ -123,182 +124,155 @@ export default async function FeedbackPage({}, req: RequestContext) {
   }
 
   return (
-    <div class="dashboard-layout">
-      <aside class="sidebar">
-        <div class="sidebar-header">
-          <a href="/dashboard" class="logo">
-            {Icons(24).Feedback}
-            Feedback
-          </a>
+    <>
+      <div class="feedback-header">
+        <div>
+          <h1>{project.name} Feedback</h1>
+          <p class="feedback-stats">
+            <span class="stat-item">
+              {Icons(16).Likes}
+              {likesCount} Likes
+            </span>
+            <span class="stat-item">
+              {Icons(16).Feedback}
+              {suggestionsCount} Suggestions
+            </span>
+            <span class="stat-item">
+              {Icons(16).Bugs}
+              {bugsCount} Bugs
+            </span>
+          </p>
+
+          <feedback-controls
+            status={status}
+            projectId={projectId}
+            sort={sort}
+            type={type}
+          />
         </div>
+      </div>
 
-        <div class="sidebar-footer">
-          <a href="/dashboard" class="nav-item">
-            {Icons(18).Dashboard}
-            Dashboard
-          </a>
-          <a href="/logout" class="nav-item">
-            {Icons(18).Logout}
-            Logout
-          </a>
+      {feedbackItems.length === 0 ? (
+        <div class="empty-state">
+          {Icons(64).Feedback}
+
+          <h3>No feedback yet</h3>
+          <p>When users submit feedback, it will appear here.</p>
         </div>
-      </aside>
-
-      <main class="main-content">
-        <div class="feedback-header">
-          <div>
-            <h1>{project.name} Feedback</h1>
-            <p class="feedback-stats">
-              <span class="stat-item">
-                {Icons(16).Likes}
-                {likesCount} Likes
-              </span>
-              <span class="stat-item">
-                {Icons(16).Feedback}
-                {suggestionsCount} Suggestions
-              </span>
-              <span class="stat-item">
-                {Icons(16).Bugs}
-                {bugsCount} Bugs
-              </span>
-            </p>
-
-            <feedback-controls
-              status={status}
-              projectId={projectId}
-              sort={sort}
-              type={type}
-            />
-          </div>
-        </div>
-
-        {feedbackItems.length === 0 ? (
-          <div class="empty-state">
-            {Icons(64).Feedback}
-
-            <h3>No feedback yet</h3>
-            <p>When users submit feedback, it will appear here.</p>
-          </div>
-        ) : (
-          <>
-            <div class="feedback-list">
-              {feedbackItems.map((item) => (
-                <div
-                  class={`feedback-item ${item.status === FeedbackStatus.DONE ? "done" : ""}`}
-                  key={item.id}
-                >
-                  <div class={`feedback-type ${item.type}`}>
-                    {item.type === "like" ? (
-                      <>{Icons(20).Likes}</>
-                    ) : item.type === "suggestion" ? (
-                      <>{Icons(20).Feedback}</>
-                    ) : (
-                      <>
-                        <>{Icons(20).Bugs}</>
-                      </>
-                    )}
-                  </div>
-                  <div class="feedback-content">
-                    <div class="feedback-message">{item.message}</div>
-                    <div class="feedback-meta">
-                      <div class="meta-left">
-                        <span class="feedback-date">
-                          {new Date(item.createdAt).toLocaleDateString(
-                            "en-US",
-                            {
-                              month: "short",
-                              day: "numeric",
-                              year: "numeric",
-                              hour: "numeric",
-                              minute: "numeric",
-                              hour12: true,
-                            },
-                          )}
-                        </span>
-                        {item.pageUrl && (
-                          <>
-                            <span class="meta-separator">•</span>
-                            <a
-                              href={item.pageUrl}
-                              target="_blank"
-                              class="view-page-link"
-                            >
-                              View Page
-                            </a>
-                          </>
-                        )}
-                        {item.email && (
-                          <>
-                            <span class="meta-separator">•</span>
-                            <span class="feedback-email">
-                              {Icons(14).Email}
-                              {item.email}
-                            </span>
-                          </>
-                        )}
-                      </div>
-                      {item.type !== "like" &&
-                        item.status !== FeedbackStatus.DONE && (
-                          // <form onSubmit={updateStatus}>
-                          <form
-                            onSubmit={async (e) => {
-                              await updateStatus(e, perPage, totalItems, stats);
-                            }}
+      ) : (
+        <>
+          <div class="feedback-list">
+            {feedbackItems.map((item) => (
+              <div
+                class={`feedback-item ${item.status === FeedbackStatus.DONE ? "done" : ""}`}
+                key={item.id}
+              >
+                <div class={`feedback-type ${item.type}`}>
+                  {item.type === "like" ? (
+                    <>{Icons(20).Likes}</>
+                  ) : item.type === "suggestion" ? (
+                    <>{Icons(20).Feedback}</>
+                  ) : (
+                    <>
+                      <>{Icons(20).Bugs}</>
+                    </>
+                  )}
+                </div>
+                <div class="feedback-content">
+                  <div class="feedback-message">{item.message}</div>
+                  <div class="feedback-meta">
+                    <div class="meta-left">
+                      <span class="feedback-date">
+                        {new Date(item.createdAt).toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                          hour: "numeric",
+                          minute: "numeric",
+                          hour12: true,
+                        })}
+                      </span>
+                      {item.pageUrl && (
+                        <>
+                          <span class="meta-separator">•</span>
+                          <a
+                            href={item.pageUrl}
+                            target="_blank"
+                            class="view-page-link"
                           >
-                            <input
-                              type="hidden"
-                              name="feedback_id"
-                              value={item.id}
-                            />
-                            <input type="hidden" name="status" value="done" />
-                            <button type="submit" class="mark-done-btn">
-                              {Icons(14).Done}
-                              Done
-                            </button>
-                          </form>
-                        )}
+                            View Page
+                          </a>
+                        </>
+                      )}
+                      {item.email && (
+                        <>
+                          <span class="meta-separator">•</span>
+                          <span class="feedback-email">
+                            {Icons(14).Email}
+                            {item.email}
+                          </span>
+                        </>
+                      )}
                     </div>
+                    {item.type !== "like" &&
+                      item.status !== FeedbackStatus.DONE && (
+                        // <form onSubmit={updateStatus}>
+                        <form
+                          onSubmit={async (e) => {
+                            await updateStatus(e, perPage, totalItems, stats);
+                          }}
+                        >
+                          <input
+                            type="hidden"
+                            name="feedback_id"
+                            value={item.id}
+                          />
+                          <input type="hidden" name="status" value="done" />
+                          <button type="submit" class="mark-done-btn">
+                            {Icons(14).Done}
+                            Done
+                          </button>
+                        </form>
+                      )}
                   </div>
                 </div>
-              ))}
-            </div>
-
-            {totalPages > 1 && (
-              <div class="pagination">
-                {page > 1 && (
-                  <a
-                    href={`/feedback?project_id=${projectId}&sort=${sort}&status=${status}&type=${type}&page=${page - 1}`}
-                    class="pagination-btn"
-                  >
-                    Previous
-                  </a>
-                )}
-
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                  (p) => (
-                    <a
-                      href={`/feedback?project_id=${projectId}&sort=${sort}&status=${status}&type=${type}&page=${p}`}
-                      class={`pagination-btn ${p === page ? "active" : ""}`}
-                      key={p}
-                    >
-                      {p}
-                    </a>
-                  ),
-                )}
-
-                {page < totalPages && (
-                  <a
-                    href={`/feedback?project_id=${projectId}&sort=${sort}&status=${status}&type=${type}&page=${page + 1}`}
-                    class="pagination-btn"
-                  >
-                    Next
-                  </a>
-                )}
               </div>
-            )}
-          </>
-        )}
-      </main>
-    </div>
+            ))}
+          </div>
+
+          {totalPages > 1 && (
+            <div class="pagination">
+              {page > 1 && (
+                <a
+                  href={`/feedback?project_id=${projectId}&sort=${sort}&status=${status}&type=${type}&page=${page - 1}`}
+                  class="pagination-btn"
+                >
+                  Previous
+                </a>
+              )}
+
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                <a
+                  href={`/feedback?project_id=${projectId}&sort=${sort}&status=${status}&type=${type}&page=${p}`}
+                  class={`pagination-btn ${p === page ? "active" : ""}`}
+                  key={p}
+                >
+                  {p}
+                </a>
+              ))}
+
+              {page < totalPages && (
+                <a
+                  href={`/feedback?project_id=${projectId}&sort=${sort}&status=${status}&type=${type}&page=${page + 1}`}
+                  class="pagination-btn"
+                >
+                  Next
+                </a>
+              )}
+            </div>
+          )}
+        </>
+      )}
+    </>
   );
 }
