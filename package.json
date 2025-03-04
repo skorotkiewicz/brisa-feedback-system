@@ -14,7 +14,7 @@
     "@prisma/client": "^6.4.1",
     "axios": "^1.8.1",
     "bcryptjs": "^2.4.3",
-    "brisa": "^0.2.8",
+    "brisa": "0.2.7",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "terser": "^5.39.0"
