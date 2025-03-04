@@ -326,6 +326,52 @@ class FeedbackWidget {
       }, 300);
     }, 3000);
   }
+  
+  renderErrorMessage(contentElement, errorMessage) {
+    contentElement.innerHTML = "";
+
+    const icon = document.createElement("div");
+    icon.innerHTML =
+      '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#E74C3C" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+    icon.style.textAlign = "center";
+    icon.style.margin = "15px 0";
+
+    const errorTitle = document.createElement("h3");
+    errorTitle.innerText = "Error";
+    errorTitle.style.textAlign = "center";
+    errorTitle.style.marginBottom = "10px";
+    errorTitle.style.color = "#E74C3C";
+
+    const message = document.createElement("p");
+    message.innerText = errorMessage;
+    message.style.textAlign = "center";
+    message.style.fontSize = "14px";
+    message.style.marginBottom = "15px";
+
+    const backBtn = document.createElement("button");
+    backBtn.innerText = "Try Again";
+    backBtn.style.width = "100%";
+    backBtn.style.padding = "10px";
+    backBtn.style.backgroundColor = this.settings.widgetButtonColor || "#4A90E2";
+    backBtn.style.color = this.settings.widgetButtonTextColor || "#FFFFFF";
+    backBtn.style.border = "none";
+    backBtn.style.borderRadius = "4px";
+    backBtn.style.cursor = "pointer";
+
+    contentElement.appendChild(icon);
+    contentElement.appendChild(errorTitle);
+    contentElement.appendChild(message);
+    contentElement.appendChild(backBtn);
+
+    // Event listener for the back button
+    backBtn.addEventListener("click", () => {
+      if (this.currentType) {
+        this.renderFeedbackForm(contentElement, this.currentType);
+      } else {
+        this.renderFeedbackOptions(contentElement);
+      }
+    });
+  }
 
   toggleWidget() {
     const container = document.getElementById("feedback-widget-container");
@@ -385,6 +431,11 @@ class FeedbackWidget {
         this.renderThankYou(content);
       } else {
         console.error("Failed to submit feedback");
+        const responseData = await response.json();
+        if (responseData.error) {
+          const content = document.querySelector(".feedback-widget-content");
+          this.renderErrorMessage(content, responseData.error);
+        }
       }
     } catch (error) {
       console.error("Error submitting feedback:", error);

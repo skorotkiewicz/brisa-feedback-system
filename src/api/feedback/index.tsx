@@ -33,6 +33,17 @@ export async function POST(req: RequestContext) {
     );
   }
 
+  if (data.message.length > 1000) {
+    return addCorsHeaders(
+      new Response(
+        JSON.stringify({ error: "Message to long, maximum 1000 characters" }),
+        {
+          status: 401,
+        },
+      ),
+    );
+  }
+
   //
   try {
     let response = null;
