@@ -14,6 +14,7 @@ class FeedbackWidget {
     };
     this.isOpen = false;
     this.currentType = null;
+    this.apiServer = "http://localhost:3000";
     this.recaptchaLoaded = false;
     this.recaptchaSiteKey = "";
   }
@@ -42,7 +43,7 @@ class FeedbackWidget {
   async loadSettings() {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/widget-settings?api_key=${this.apiKey}`,
+        `${this.apiServer}/api/widget-settings?api_key=${this.apiKey}`,
       );
       if (response.ok) {
         const settings = await response.json();
@@ -362,7 +363,7 @@ class FeedbackWidget {
         });
       });
 
-      const response = await fetch("http://localhost:3000/api/feedback", {
+      const response = await fetch(`${this.apiServer}/api/feedback`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
