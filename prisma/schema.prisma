@@ -1,0 +1,50 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    // provider = "sqlite"
+    // url      = "file:./dev.db"
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id        Int       @id @default(autoincrement())
+    email     String    @unique
+    password  String
+    createdAt DateTime  @default(now())
+    projects  Project[]
+}
+
+model Project {
+    id               Int        @id @default(autoincrement())
+    userId           Int
+    name             String
+    apiKey           String     @db.VarChar(32)
+    createdAt        DateTime   @default(now())
+    widgetSettings   Json       @default("{}")
+    feedbackOptions  Json       @default("{\"like\": true, \"suggestion\": true, \"bug\": true}")
+    user             User       @relation(fields: [userId], references: [id])
+    feedback         Feedback[]
+    recaptcha_key    String?
+    recaptcha_secret String?
+}
+
+model Feedback {
+    id              Int            @id @default(autoincrement())
+    projectId       Int
+    type            String         @db.VarChar(50)
+    message         String?
+    email           String?        @db.VarChar(255)
+    pageUrl         String?        @db.VarChar(255)
+    status          FeedbackStatus @default(PENDING)
+    statusUpdatedAt DateTime?
+    createdAt       DateTime       @default(now())
+    project         Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+enum FeedbackStatus {
+    PENDING
+    DONE
+}
