@@ -1,4 +1,4 @@
-import { type RequestContext } from "brisa";
+import type { RequestContext } from "brisa";
 import { prisma } from "@/utils/prisma";
 import { FeedbackStatus } from "@prisma/client";
 import { addCorsHeaders } from "@/utils/response";
@@ -55,13 +55,12 @@ export async function POST(req: RequestContext) {
         new Response(JSON.stringify({ success: true }), { status: 200 }),
       );
       //
-    } else {
-      return addCorsHeaders(
-        new Response(JSON.stringify({ error: "CAPTCHA verification error" }), {
-          status: 401,
-        }),
-      );
     }
+    return addCorsHeaders(
+      new Response(JSON.stringify({ error: "CAPTCHA verification error" }), {
+        status: 401,
+      }),
+    );
   } catch (error) {
     return addCorsHeaders(
       new Response(JSON.stringify({ error: "Failed to save feedback" }), {
@@ -69,30 +68,6 @@ export async function POST(req: RequestContext) {
       }),
     );
   }
-
-  // // Save feedback
-  // try {
-  //   await prisma.feedback.create({
-  //     data: {
-  //       projectId: project.id,
-  //       type: data.type,
-  //       message: data.message,
-  //       email: data.email,
-  //       pageUrl: data.page_url,
-  //       status: FeedbackStatus.PENDING,
-  //     },
-  //   });
-
-  //   return addCorsHeaders(
-  //     new Response(JSON.stringify({ success: true }), { status: 200 }),
-  //   );
-  // } catch (error) {
-  //   return addCorsHeaders(
-  //     new Response(JSON.stringify({ error: "Failed to save feedback" }), {
-  //       status: 500,
-  //     }),
-  //   );
-  // }
 }
 
 // Handle CORS preflight requests

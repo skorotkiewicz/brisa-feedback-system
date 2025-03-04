@@ -1,5 +1,5 @@
 import { Icons } from "@/utils/icons";
-import { navigate, type WebContext } from "brisa";
+import type { WebContext } from "brisa";
 
 export default function DeleteProject(
   {
@@ -8,16 +8,12 @@ export default function DeleteProject(
   }: { projectName: string; onDeleteProject: () => void },
   {}: WebContext,
 ) {
-  //   const theme = state(currentTheme);
-
   async function deleteProject() {
     const userInput = prompt(
       `Are you sure you want to delete the project "${projectName}" and all its feedback? This action cannot be undone. To confirm, type: DELETE`,
     );
     if (userInput === "DELETE") {
       return onDeleteProject();
-    } else {
-      return false;
     }
   }
 

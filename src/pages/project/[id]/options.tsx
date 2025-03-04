@@ -1,6 +1,5 @@
 import { navigate, type RequestContext } from "brisa";
 import { prisma } from "@/utils/prisma";
-import { Icons } from "@/utils/icons";
 
 export default async function ProjectOptionsEdit({}, req: RequestContext) {
   const { token, userId, isAuthenticated } = req.store.get("authContext");
@@ -67,7 +66,11 @@ export default async function ProjectOptionsEdit({}, req: RequestContext) {
           class="button-group"
           style={{ display: "flex", gap: "1rem", marginBottom: "1rem" }}
         >
-          <a href="/dashboard" class="btn btn-secondary">
+          <a
+            href="/dashboard"
+            class="btn btn-secondary"
+            style={{ textDecoration: "none" }}
+          >
             Back to Dashboard
           </a>
 

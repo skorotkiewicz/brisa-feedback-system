@@ -1,4 +1,4 @@
-import { type RequestContext } from "brisa";
+import type { RequestContext } from "brisa";
 import { userAuth } from "@/utils/cookies";
 import { prisma } from "@/utils/prisma";
 import { addCorsHeaders } from "@/utils/response";

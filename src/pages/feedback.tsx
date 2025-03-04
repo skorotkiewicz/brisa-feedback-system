@@ -2,7 +2,6 @@ import { navigate, type RequestContext } from "brisa";
 import { renderPage } from "brisa/server";
 import { prisma, FBStatus as FeedbackStatus } from "@/utils/prisma";
 import { Icons } from "@/utils/icons";
-// import { FeedbackStatus } from "@prisma/client";
 
 export default async function FeedbackPage({}, req: RequestContext) {
   const { token, userId, isAuthenticated } = req.store.get("authContext");
@@ -173,9 +172,7 @@ export default async function FeedbackPage({}, req: RequestContext) {
                   ) : item.type === "suggestion" ? (
                     <>{Icons(20).Feedback}</>
                   ) : (
-                    <>
-                      <>{Icons(20).Bugs}</>
-                    </>
+                    <>{Icons(20).Bugs}</>
                   )}
                 </div>
                 <div class="feedback-content">
@@ -198,6 +195,7 @@ export default async function FeedbackPage({}, req: RequestContext) {
                           <a
                             href={item.pageUrl}
                             target="_blank"
+                            rel="noreferrer"
                             class="view-page-link"
                           >
                             View Page
@@ -219,7 +217,13 @@ export default async function FeedbackPage({}, req: RequestContext) {
                         // <form onSubmit={updateStatus}>
                         <form
                           onSubmit={async (e) => {
-                            await updateStatus(e, perPage, totalItems, stats);
+                            await updateStatus(
+                              e,
+                              perPage,
+                              totalItems,
+                              stats,
+                              type,
+                            );
                           }}
                         >
                           <input

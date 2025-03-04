@@ -31,8 +31,7 @@ class FeedbackWidget {
     if (this.recaptchaLoaded) return;
 
     const script = document.createElement("script");
-    script.src =
-      "https://www.google.com/recaptcha/api.js?render=" + this.recaptchaSiteKey;
+    script.src = `https://www.google.com/recaptcha/api.js?render=${this.recaptchaSiteKey}`;
     script.async = true;
     script.defer = true;
     document.head.appendChild(script);
@@ -159,7 +158,7 @@ class FeedbackWidget {
       });
     }
 
-    options.forEach((option) => {
+    for (const option of options) {
       const button = document.createElement("button");
       button.id = `feedback-option-${option.id}`;
       button.style.display = "flex";
@@ -191,7 +190,7 @@ class FeedbackWidget {
       );
 
       contentElement.appendChild(button);
-    });
+    }
   }
 
   renderFeedbackForm(contentElement, type) {

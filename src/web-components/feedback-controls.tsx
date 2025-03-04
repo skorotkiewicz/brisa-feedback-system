@@ -4,9 +4,7 @@ export default function FeedbackControls(
   { status, projectId, sort, type }: any,
   {}: WebContext,
 ) {
-  //   const theme = state(currentTheme);
-
-  console.log(sort, type);
+  // console.log(sort, type);
 
   return (
     <div class="feedback-controls">

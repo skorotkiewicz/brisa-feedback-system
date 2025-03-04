@@ -1,6 +1,6 @@
 import { navigate, type RequestContext } from "brisa";
 import { prisma } from "@/utils/prisma";
-import { Icons } from "@/utils/icons";
+import { themes } from "@/utils/themes";
 
 export default async function ProjectThemeEdit({}, req: RequestContext) {
   const { token, userId, isAuthenticated } = req.store.get("authContext");
@@ -27,34 +27,6 @@ export default async function ProjectThemeEdit({}, req: RequestContext) {
     buttonText: "Feedback",
     headerText: "Help us improve",
     ...JSON.parse(JSON.stringify(project.widgetSettings || {})),
-  };
-
-  // Available themes
-  const themes = {
-    classic: {
-      primaryColor: "#4A90E2",
-      buttonTextColor: "#FFFFFF",
-      backgroundColor: "#FFFFFF",
-      widgetTextColor: "#333333",
-      widgetButtonColor: "#4A90E2",
-      widgetButtonTextColor: "#FFFFFF",
-    },
-    modern: {
-      primaryColor: "#6C5CE7",
-      buttonTextColor: "#FFFFFF",
-      backgroundColor: "#F3F0FF",
-      widgetTextColor: "#2D3436",
-      widgetButtonColor: "#6C5CE7",
-      widgetButtonTextColor: "#FFFFFF",
-    },
-    dark: {
-      primaryColor: "#2D3436",
-      buttonTextColor: "#FFFFFF",
-      backgroundColor: "#2D3436",
-      widgetTextColor: "#FFFFFF",
-      widgetButtonColor: "#636E72",
-      widgetButtonTextColor: "#FFFFFF",
-    },
   };
 
   // Handle form submission
@@ -88,7 +60,11 @@ export default async function ProjectThemeEdit({}, req: RequestContext) {
     <div class="container">
       <div class="card mb-4">
         <h2 class="mb-4">Customize Theme for {project.name}</h2>
-        <a href="/dashboard" class="btn btn-secondary">
+        <a
+          href="/dashboard"
+          class="btn btn-secondary"
+          style={{ textDecoration: "none" }}
+        >
           Back to Dashboard
         </a>
 

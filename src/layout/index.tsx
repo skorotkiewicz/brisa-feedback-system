@@ -1,17 +1,10 @@
-import { navigate, type RequestContext } from "brisa";
-import { Icons } from "@/utils/icons";
-
 import "@/styles/style.css";
 import "@/styles/nav.css";
 import "@/styles/footer.css";
 import "@/styles/feedback.css";
+import Nav from "@/components/navigation";
 
-export default function Layout(
-  { children }: { children: JSX.Element },
-  req: RequestContext,
-) {
-  const { isAuthenticated } = req.store.get("authContext");
-
+export default function Layout({ children }: { children: JSX.Element }) {
   return (
     <html lang="en">
       <head>
@@ -22,48 +15,7 @@ export default function Layout(
       </head>
       <body>
         <div class="dashboard-layout">
-          <aside class="sidebar">
-            <div class="sidebar-header">
-              <a href="/dashboard" class="logo">
-                {Icons(24).Feedback}
-                Feedback
-              </a>
-            </div>
-
-            {isAuthenticated ? (
-              <div class="sidebar-footer">
-                <a
-                  href="/dashboard"
-                  class={`nav-item ${req.route.name === "/dashboard" ? "active" : ""} `}
-                >
-                  {Icons(18).Dashboard}
-                  Dashboard
-                </a>
-                <a href="/logout" class="nav-item">
-                  {Icons(18).Logout}
-                  Logout
-                </a>
-              </div>
-            ) : (
-              <div class="sidebar-footer">
-                <a
-                  href="/login"
-                  class={`nav-item ${req.route.name === "/login" ? "active" : ""} `}
-                >
-                  {Icons(18).Login}
-                  Login
-                </a>
-                <a
-                  href="/register"
-                  class={`nav-item ${req.route.name === "/register" ? "active" : ""} `}
-                >
-                  {Icons(18).Register}
-                  Register
-                </a>
-              </div>
-            )}
-          </aside>
-
+          <Nav />
           <main class="main-content">{children}</main>
         </div>
       </body>

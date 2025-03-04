@@ -80,12 +80,7 @@ export default async function DashboardPage({}, req: RequestContext) {
             <p>
               API Key: <code>{project.apiKey}</code>
             </p>
-            {/* <div class="code-block">
-                  &lt;script
-                  src="https://your-domain.com/api/widget"&gt;&lt;/script&gt;
-                  &lt;script&gt; FeedbackWidget.init('{project.apiKey}');
-                  &lt;/script&gt;
-                </div> */}
+            <h3>Embed Code</h3>
             <div class="code-block">
               &lt;script
               src="https://your-domain.com/api/widget"&gt;&lt;/script&gt;

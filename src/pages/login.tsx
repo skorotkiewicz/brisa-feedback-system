@@ -5,8 +5,6 @@ import { decodeToken, login } from "@/utils/auth";
 export default function LoginPage({}, req: RequestContext) {
   const errorMsg = req.store.get("auth-error");
 
-  // : React.FormEvent<HTMLFormElement>
-
   async function authenticate(e: any) {
     const email = e.formData.get("email");
     const password = e.formData.get("password");

@@ -29,8 +29,8 @@ export default function ChangeTheme(
                 style={{ display: "none" }}
               />
               <div class={`theme-preview ${themeName}`}>
-                <div class="preview-button"></div>
-                <div class="preview-widget"></div>
+                <div class="preview-button" />
+                <div class="preview-widget" />
               </div>
               <span>
                 {themeName.charAt(0).toUpperCase() + themeName.slice(1)}

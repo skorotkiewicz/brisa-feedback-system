@@ -1,8 +1,6 @@
-import { prisma, FBStatus } from "./prisma";
+import { prisma } from "./prisma";
 import jwt from "jsonwebtoken";
 import { compare, hash } from "bcryptjs";
-// @types/jsonwebtoken
-// @types/bcryptjs
 
 const JWT_SECRET = Bun.env.JWT_SECRET || "feedback_app_secret_key";
 // const JWT_SECRET = process.env.JWT_SECRET || "feedback_app_secret_key";

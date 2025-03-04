@@ -1,9 +1,9 @@
-import { type RequestContext } from "brisa";
+import type { RequestContext } from "brisa";
 import { prisma } from "@/utils/prisma";
 import { addCorsHeaders } from "@/utils/response";
 
 export async function GET(req: RequestContext) {
-  let apiKey = req.route.query?.api_key;
+  const apiKey = req.route.query?.api_key;
 
   // if (Array.isArray(apiKey)) apiKey = apiKey[0];
 
