@@ -1,7 +1,7 @@
 import { navigate, type WebContext } from "brisa";
 
 export default function FeedbackControls(
-  { status, projectId, sort, type }: any,
+  { status, projectId, sort, types }: any,
   {}: WebContext,
 ) {
   // console.log(sort, type);
@@ -10,19 +10,19 @@ export default function FeedbackControls(
     <div class="feedback-controls">
       <div class="filter-group">
         <a
-          href={`/feedback?project_id=${projectId}&sort=${sort}&status=all&type=${type}`}
+          href={`/feedback?project_id=${projectId}&sort=${sort}&status=all&type=${types}`}
           class={`filter-btn ${status === "all" ? "active" : ""}`}
         >
           All
         </a>
         <a
-          href={`/feedback?project_id=${projectId}&sort=${sort}&status=pending&type=${type}`}
+          href={`/feedback?project_id=${projectId}&sort=${sort}&status=pending&type=${types}`}
           class={`filter-btn ${status === "pending" ? "active" : ""}`}
         >
           Pending
         </a>
         <a
-          href={`/feedback?project_id=${projectId}&sort=${sort}&status=done&type=${type}`}
+          href={`/feedback?project_id=${projectId}&sort=${sort}&status=done&type=${types}`}
           class={`filter-btn ${status === "done" ? "active" : ""}`}
         >
           Done
@@ -35,8 +35,8 @@ export default function FeedbackControls(
           )
         }
         class="select-control"
-        value={type}
-        // defaultValue={type}
+        value={types}
+        // defaultValue={types}
       >
         <option value="all">All Feedback</option>
         <option value="like">Likes</option>
@@ -46,7 +46,7 @@ export default function FeedbackControls(
       <select
         onChange={(e: any) =>
           navigate(
-            `/feedback?project_id=${projectId}&sort=${e.target.value}&status=${status}&type=${type}`,
+            `/feedback?project_id=${projectId}&sort=${e.target.value}&status=${status}&type=${types}`,
           )
         }
         class="select-control"

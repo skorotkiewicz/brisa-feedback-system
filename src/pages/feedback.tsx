@@ -148,7 +148,7 @@ export default async function FeedbackPage({}, req: RequestContext) {
             status={status}
             projectId={projectId}
             sort={sort}
-            type={type}
+            types={type}
           />
         </div>
       </div>
