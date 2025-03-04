@@ -8,7 +8,7 @@ export default async function ProjectOptionsEdit({}, req: RequestContext) {
   const projectId = Number.parseInt(req.route.params.id);
 
   // Fetch project data
-  const project = await prisma.project.findUnique({
+  const project: any = await prisma.project.findUnique({
     where: {
       id: projectId,
       userId,
@@ -38,6 +38,7 @@ export default async function ProjectOptionsEdit({}, req: RequestContext) {
       where: { id: projectId },
       data: {
         feedbackOptions: options,
+        recaptcha_enabled: e.formData.get("recaptcha_enabled") === "on",
         recaptcha_key: e.formData.get("recaptcha_key") || "",
         recaptcha_secret: e.formData.get("recaptcha_secret") || "",
       },
@@ -123,6 +124,15 @@ export default async function ProjectOptionsEdit({}, req: RequestContext) {
               </label>
             </div>
 
+            <div class="form-group">
+              <label>Recaptcha Enabled</label>
+              <input
+                type="checkbox"
+                name="recaptcha_enabled"
+                checked={project.recaptcha_enabled}
+                class="form-control"
+              />
+            </div>
             <div class="form-group">
               <label>Recaptcha Key</label>
               <input

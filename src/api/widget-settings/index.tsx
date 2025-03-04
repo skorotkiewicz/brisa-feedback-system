@@ -3,9 +3,7 @@ import { prisma } from "@/utils/prisma";
 import { addCorsHeaders } from "@/utils/response";
 
 export async function GET(req: RequestContext) {
-  const apiKey = req.route.query?.api_key;
-
-  // if (Array.isArray(apiKey)) apiKey = apiKey[0];
+  const apiKey = String(req.route.query?.api_key || "");
 
   if (!apiKey) {
     return addCorsHeaders(
@@ -31,6 +29,7 @@ export async function GET(req: RequestContext) {
   const settings = {
     ...JSON.parse(JSON.stringify(project.widgetSettings || {})),
     feedbackOptions: JSON.parse(JSON.stringify(project.feedbackOptions || {})),
+    recaptcha_enabled: project.recaptcha_enabled || false,
     recaptcha_key: project.recaptcha_key || "",
   };
 

@@ -18,17 +18,18 @@ model User {
 }
 
 model Project {
-    id               Int        @id @default(autoincrement())
-    userId           Int
-    name             String
-    apiKey           String     @db.VarChar(32)
-    createdAt        DateTime   @default(now())
-    widgetSettings   Json       @default("{}")
-    feedbackOptions  Json       @default("{\"like\": true, \"suggestion\": true, \"bug\": true}")
-    user             User       @relation(fields: [userId], references: [id])
-    feedback         Feedback[]
-    recaptcha_key    String?
-    recaptcha_secret String?
+    id                Int        @id @default(autoincrement())
+    userId            Int
+    name              String
+    apiKey            String     @db.VarChar(32)
+    createdAt         DateTime   @default(now())
+    widgetSettings    Json       @default("{}")
+    feedbackOptions   Json       @default("{\"like\": true, \"suggestion\": true, \"bug\": true}")
+    user              User       @relation(fields: [userId], references: [id])
+    feedback          Feedback[]
+    recaptcha_key     String?
+    recaptcha_secret  String?
+    recaptcha_enabled Boolean    @default(false)
 }
 
 model Feedback {

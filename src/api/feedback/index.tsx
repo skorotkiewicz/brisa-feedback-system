@@ -25,7 +25,7 @@ export async function POST(req: RequestContext) {
     );
   }
 
-  if (!captcha) {
+  if (!captcha && project.recaptcha_enabled === true) {
     return addCorsHeaders(
       new Response(JSON.stringify({ error: "Please complete the CAPTCHA" }), {
         status: 401,
@@ -35,10 +35,14 @@ export async function POST(req: RequestContext) {
 
   //
   try {
-    const response = await axios.post(
-      `https://www.google.com/recaptcha/api/siteverify?secret=${project.recaptcha_secret}&response=${captcha}`,
-    );
-    if (response.data.success) {
+    let response = null;
+    if (project.recaptcha_enabled) {
+      response = await axios.post(
+        `https://www.google.com/recaptcha/api/siteverify?secret=${project.recaptcha_secret}&response=${captcha}`,
+      );
+    }
+
+    if (response?.data.success || !project.recaptcha_enabled) {
       // Save feedback
       await prisma.feedback.create({
         data: {

@@ -16,6 +16,7 @@ class FeedbackWidget {
     this.currentType = null;
     this.apiServer = "http://localhost:3000";
     this.recaptchaLoaded = false;
+    this.recaptchaEnabled = false;
     this.recaptchaSiteKey = "";
   }
 
@@ -50,6 +51,7 @@ class FeedbackWidget {
           ...this.settings,
           ...settings,
         };
+        this.recaptchaEnabled = settings.recaptcha_enabled;
         this.recaptchaSiteKey = settings.recaptcha_key;
       }
     } catch (error) {
@@ -331,7 +333,7 @@ class FeedbackWidget {
     container.style.display = this.isOpen ? "block" : "none";
 
     // Load reCAPTCHA only when widget is opened
-    if (this.isOpen) {
+    if (this.isOpen && this.recaptchaEnabled) {
       this.loadRecaptcha();
     }
   }
@@ -345,22 +347,26 @@ class FeedbackWidget {
   async submitFeedback(data) {
     try {
       // Execute reCAPTCHA and get token
-      if (!window.grecaptcha) {
+      if (!window.grecaptcha && this.recaptchaEnabled) {
         console.error("reCAPTCHA not loaded");
         return;
       }
 
-      const recaptchaToken = await new Promise((resolve) => {
-        grecaptcha.ready(() => {
-          grecaptcha
-            .execute(this.recaptchaSiteKey, { action: "submit_feedback" })
-            .then((token) => resolve(token))
-            .catch((err) => {
-              console.error("reCAPTCHA error:", err);
-              resolve("");
-            });
+      let recaptchaToken = "";
+
+      if (this.recaptchaEnabled) {
+        recaptchaToken = await new Promise((resolve) => {
+          grecaptcha.ready(() => {
+            grecaptcha
+              .execute(this.recaptchaSiteKey, { action: "submit_feedback" })
+              .then((token) => resolve(token))
+              .catch((err) => {
+                console.error("reCAPTCHA error:", err);
+                resolve("");
+              });
+          });
         });
-      });
+      }
 
       const response = await fetch(`${this.apiServer}/api/feedback`, {
         method: "POST",
