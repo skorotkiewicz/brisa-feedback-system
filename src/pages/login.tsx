@@ -1,4 +1,5 @@
-import { navigate, type RequestContext } from "brisa";
+import { navigate } from "brisa";
+import type { RequestContext, ResponseHeaders } from "brisa";
 import { renderPage } from "brisa/server";
 import { decodeToken, login } from "@/utils/auth";
 
@@ -34,7 +35,7 @@ export default function LoginPage({}, req: RequestContext) {
 
         {errorMsg && <div class="alert alert-error mb-4">{errorMsg}</div>}
 
-        <form method="POST" onSubmit={authenticate}>
+        <form onSubmit={authenticate}>
           <div class="form-group">
             <label htmlFor="email">Email address</label>
             <input type="email" id="email" name="email" required />
@@ -62,15 +63,16 @@ export default function LoginPage({}, req: RequestContext) {
   );
 }
 
-export function responseHeaders(req: RequestContext) {
-  // Read the stored auth cookies
-  const authCookies = req.store.get("auth-cookies");
+export function responseHeaders(
+  request: RequestContext,
+  { headersSnapshot }: ResponseHeaders,
+) {
+  const headers = headersSnapshot();
 
-  if (authCookies) {
-    return {
-      "Set-Cookie": authCookies,
-    };
+  const cookie = request.store.get("auth-cookies");
+
+  if (cookie) {
+    headers.append("Set-Cookie", cookie);
+    return headers;
   }
-
-  return {};
 }

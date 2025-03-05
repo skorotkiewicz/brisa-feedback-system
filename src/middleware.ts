@@ -8,7 +8,8 @@ export default async function middleware(req: RequestContext) {
     // req.route.name === "/" ||
     req.url.includes("/login") ||
     req.url.includes("/register") ||
-    req.url.includes("/public/")
+    req.url.includes("/public/") ||
+    req.url.includes("/test")
   ) {
     setAuth(null, req);
 

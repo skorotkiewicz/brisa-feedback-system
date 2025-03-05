@@ -1,4 +1,5 @@
-import { navigate, type RequestContext } from "brisa";
+import { navigate } from "brisa";
+import type { RequestContext, ResponseHeaders } from "brisa";
 import { renderPage } from "brisa/server";
 import { register } from "@/utils/auth";
 
@@ -62,15 +63,16 @@ export default function RegisterPage({}, req: RequestContext) {
   );
 }
 
-export function responseHeaders(req: RequestContext) {
-  // Read the stored auth cookies
-  const authCookies = req.store.get("auth-cookies");
+export function responseHeaders(
+  request: RequestContext,
+  { headersSnapshot }: ResponseHeaders,
+) {
+  const headers = headersSnapshot();
 
-  if (authCookies) {
-    return {
-      "Set-Cookie": authCookies,
-    };
+  const cookie = request.store.get("auth-cookies");
+
+  if (cookie) {
+    headers.append("Set-Cookie", cookie);
+    return headers;
   }
-
-  return {};
 }

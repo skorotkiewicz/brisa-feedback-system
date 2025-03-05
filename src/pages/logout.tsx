@@ -1,4 +1,5 @@
-import { navigate, type RequestContext } from "brisa";
+import { navigate } from "brisa";
+import type { RequestContext, ResponseHeaders } from "brisa";
 
 export default function LogoutPage({}, req: RequestContext) {
   // Redirect to login page
@@ -6,8 +7,12 @@ export default function LogoutPage({}, req: RequestContext) {
   return;
 }
 
-export function responseHeaders() {
-  return {
-    "Set-Cookie": "token=deleted; Path=/; Max-Age=0; HttpOnly",
-  };
+export function responseHeaders(
+  request: RequestContext,
+  { headersSnapshot }: ResponseHeaders,
+) {
+  const headers = headersSnapshot();
+
+  headers.append("Set-Cookie", "token=deleted; Path=/; Max-Age=0; HttpOnly");
+  return headers;
 }
