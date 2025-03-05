@@ -5,10 +5,11 @@
   "scripts": {
     "dev": "brisa dev",
     "dev:debug": "brisa dev --debug",
-    "build": "npm run prestart && brisa build",
+    "build": "prisma generate && brisa build",
     "start": "brisa start",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
+    "postinstall": "prisma generate",
     "prestart": "npm run prisma:generate && npm run prisma:migrate"
   },
   "dependencies": {
