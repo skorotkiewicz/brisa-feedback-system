@@ -8,7 +8,8 @@
     "build": "brisa build",
     "start": "brisa start",
     "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev"
+    "prisma:migrate": "prisma migrate dev",
+    "prestart": "npm run prisma:generate && npm run prisma:migrate"
   },
   "dependencies": {
     "@prisma/client": "^6.4.1",
