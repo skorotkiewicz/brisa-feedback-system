@@ -8,8 +8,7 @@
     "build": "prisma generate && brisa build",
     "start": "brisa start",
     "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev",
-    "postinstall": "prisma generate",
+    "prisma:migrate": "prisma migrate deploy",
     "prestart": "npm run prisma:generate && npm run prisma:migrate"
   },
   "dependencies": {
@@ -26,6 +25,7 @@
     "@types/bun": "latest",
     "@types/js-cookie": "^3.0.6",
     "@types/jsonwebtoken": "^9.0.9",
+    "brisa-adapter-vercel": "^0.2.8",
     "prisma": "^6.4.1",
     "sass": "^1.85.1",
     "typescript": "latest"
